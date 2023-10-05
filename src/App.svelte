@@ -1,11 +1,11 @@
 <script lang="ts">
-  import Toolbar from "./components/Toolbar.svelte";
+  // import Toolbar from "./components/Toolbar.svelte";
   import Editors from "./components/Editors/Editors.svelte";
   import Output from "./components/Output.svelte";
 </script>
 
 <main>
-  <Toolbar />
+  <!-- <Toolbar /> -->
   <div class="content">
     <Editors />
     <Output />

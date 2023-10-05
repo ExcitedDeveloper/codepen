@@ -1,7 +1,11 @@
 <script>
+  /**
+   * @type {string}
+   */
+  export let id;
 </script>
 
-<div class="editor"></div>
+<div {id} class="editor"></div>
 
 <style>
   .editor {

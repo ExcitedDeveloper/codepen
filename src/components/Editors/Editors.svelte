@@ -1,17 +1,19 @@
 <script>
-  import CSSEditor from "./CSSEditor.svelte";
-  import EditorResizer from "./EditorResizer.svelte";
+  import HTMLEditorResizer from "./HTMLEditorResizer.svelte";
   import HtmlEditor from "./HTMLEditor.svelte";
+  import CSSEditorResizer from "./CSSEditorResizer.svelte";
+  import CSSEditor from "./CSSEditor.svelte";
+  import JSEditorResizer from "./JSEditorResizer.svelte";
   import JsEditor from "./JSEditor.svelte";
 </script>
 
 <div class="editors">
-  <EditorResizer />
+  <HTMLEditorResizer />
   <HtmlEditor />
-  <EditorResizer />
-  <JsEditor />
-  <EditorResizer />
+  <CSSEditorResizer />
   <CSSEditor />
+  <JSEditorResizer />
+  <JsEditor />
 </div>
 
 <style>
