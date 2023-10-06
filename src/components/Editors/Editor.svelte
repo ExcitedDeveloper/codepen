@@ -9,7 +9,7 @@
 
 <style>
   .editor {
-    flex: 1;
     border: 1px solid teal;
+    flex: 1 1 auto;
   }
 </style>

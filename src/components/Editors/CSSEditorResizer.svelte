@@ -1,37 +1,42 @@
 <script lang="ts">
-  const handler = document.querySelector(".editor-resizer");
-  const wrapper = handler?.closest(".wrapper");
-  const htmlEditor = wrapper?.querySelector("#html-editor");
+  import { onMount } from "svelte";
+
+  let handler: HTMLElement;
   let isHandlerDragging = false;
 
-  document.addEventListener("mousedown", function (e) {
-    // If mousedown event is fired from .handler, toggle flag to true
-    if (e.target === handler) {
-      isHandlerDragging = true;
-    }
-  });
+  onMount(() => {
+    const wrapper = handler?.closest(".editors");
+    const htmlEditor = wrapper?.querySelector("#html-editor");
 
-  document.addEventListener("mousemove", function (e) {
-    // Don't do anything if dragging flag is false
-    if (!isHandlerDragging) {
-      return false;
-    }
+    document.addEventListener("mousedown", function (e) {
+      // If mousedown event is fired from .handler, toggle flag to true
+      if (e.target === handler) {
+        isHandlerDragging = true;
+      }
+    });
 
-    // Get offset
-    var containerOffsetLeft = (wrapper as HTMLElement)?.offsetLeft;
+    document.addEventListener("mousemove", function (e) {
+      // Don't do anything if dragging flag is false
+      if (!isHandlerDragging) {
+        return false;
+      }
 
-    // Get x-coordinate of pointer relative to container
-    var pointerRelativeXpos = e.clientX - containerOffsetLeft;
+      // Get offset
+      var containerOffsetLeft = (wrapper as HTMLElement)?.offsetLeft;
 
-    // Arbitrary minimum width set on box A, otherwise its inner content will collapse to width of 0
-    var boxAminWidth = 60;
+      // Get x-coordinate of pointer relative to container
+      var pointerRelativeXpos = e.clientX - containerOffsetLeft;
 
-    // Resize box A
-    // * 8px is the left/right spacing between .handler and its inner pseudo-element
-    // * Set flex-grow to 0 to prevent it from growing
-    (htmlEditor as HTMLElement).style.width =
-      Math.max(boxAminWidth, pointerRelativeXpos - 8) + "px";
-    (htmlEditor as HTMLElement).style.flexGrow = "0";
+      // Arbitrary minimum width set on box A, otherwise its inner content will collapse to width of 0
+      var boxAminWidth = 60;
+
+      // Resize box A
+      // * 8px is the left/right spacing between .handler and its inner pseudo-element
+      // * Set flex-grow to 0 to prevent it from growing
+      (htmlEditor as HTMLElement).style.width =
+        Math.max(boxAminWidth, pointerRelativeXpos - 8) + "px";
+      (htmlEditor as HTMLElement).style.flexGrow = "0";
+    });
   });
 
   document.addEventListener("mouseup", function (e) {
@@ -40,14 +45,31 @@
   });
 </script>
 
-<div class="editor-resizer"></div>
+<div bind:this={handler} class="editor-resizer"></div>
 
 <style>
-  .editor-resizer {
+  /* .editor-resizer {
     position: relative;
     z-index: 2;
     width: 18px;
     flex: 1 1 auto;
     border: 1px solid purple;
+  } */
+
+  .editor-resizer {
+    width: 18px;
+    padding: 0;
+    cursor: ew-resize;
+    flex: 0 0 auto;
+    border: 1px solid purple;
+  }
+
+  .editor-resizer::before {
+    content: "";
+    display: block;
+    width: 4px;
+    height: 100%;
+    background: red;
+    margin: 0 auto;
   }
 </style>
