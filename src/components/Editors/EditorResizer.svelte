@@ -1,5 +1,7 @@
 <!-- https://stackoverflow.com/questions/46931103/making-a-dragbar-to-resize-divs-inside-css-grids -->
 <script lang="ts">
+  export let editorId: string;
+
   import { onMount } from "svelte";
 
   let handler: HTMLElement;
@@ -7,7 +9,7 @@
 
   onMount(() => {
     const wrapper = handler?.closest(".editors");
-    const cssEditor = wrapper?.querySelector("#css-editor");
+    const targetEditor = wrapper?.querySelector(`#${editorId}`);
 
     document.addEventListener("mousedown", function (e) {
       // If mousedown event is fired from .handler, toggle flag to true
@@ -23,7 +25,7 @@
       }
 
       // Get offset
-      var containerOffsetLeft = (cssEditor as HTMLElement)?.offsetLeft;
+      var containerOffsetLeft = (targetEditor as HTMLElement)?.offsetLeft;
 
       // Get x-coordinate of pointer relative to container
       var pointerRelativeXpos = e.clientX - containerOffsetLeft;
@@ -34,9 +36,9 @@
       // Resize box A
       // * 8px is the left/right spacing between .handler and its inner pseudo-element
       // * Set flex-grow to 0 to prevent it from growing
-      (cssEditor as HTMLElement).style.width =
+      (targetEditor as HTMLElement).style.width =
         Math.max(boxAminWidth, pointerRelativeXpos - 8) + "px";
-      (cssEditor as HTMLElement).style.flexGrow = "0";
+      (targetEditor as HTMLElement).style.flexGrow = "0";
     });
 
     document.addEventListener("mouseup", function (e) {

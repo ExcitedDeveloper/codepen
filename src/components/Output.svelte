@@ -9,6 +9,7 @@
     height: 100%;
     width: 100%;
     flex: 2;
+    background: white;
   }
 
   @media (max-width: 766px) {

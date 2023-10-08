@@ -11,5 +11,6 @@
   .editor {
     border: 1px solid teal;
     flex: 1 1 auto;
+    background: rgb(29, 30, 34);
   }
 </style>

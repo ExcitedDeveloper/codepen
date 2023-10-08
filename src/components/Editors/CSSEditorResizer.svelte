@@ -1,3 +1,4 @@
+<!-- https://stackoverflow.com/questions/46931103/making-a-dragbar-to-resize-divs-inside-css-grids -->
 <script lang="ts">
   import { onMount } from "svelte";
 
@@ -37,29 +38,21 @@
         Math.max(boxAminWidth, pointerRelativeXpos - 8) + "px";
       (htmlEditor as HTMLElement).style.flexGrow = "0";
     });
-  });
 
-  document.addEventListener("mouseup", function (e) {
-    // Turn off dragging flag when user mouse is up
-    isHandlerDragging = false;
+    document.addEventListener("mouseup", function (e) {
+      // Turn off dragging flag when user mouse is up
+      isHandlerDragging = false;
+    });
   });
 </script>
 
 <div bind:this={handler} class="editor-resizer"></div>
 
 <style>
-  /* .editor-resizer {
-    position: relative;
-    z-index: 2;
-    width: 18px;
-    flex: 1 1 auto;
-    border: 1px solid purple;
-  } */
-
   .editor-resizer {
     width: 18px;
     padding: 0;
-    cursor: ew-resize;
+    cursor: col-resize;
     flex: 0 0 auto;
     border: 1px solid purple;
   }
@@ -69,7 +62,6 @@
     display: block;
     width: 4px;
     height: 100%;
-    background: red;
     margin: 0 auto;
   }
 </style>

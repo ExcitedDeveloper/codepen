@@ -5,6 +5,7 @@
   import CSSEditor from "./CSSEditor.svelte";
   import JSEditorResizer from "./JSEditorResizer.svelte";
   import JsEditor from "./JSEditor.svelte";
+  import EditorResizer from "./EditorResizer.svelte";
 </script>
 
 <div class="editors">
@@ -13,6 +14,7 @@
   <CSSEditorResizer />
   <CSSEditor />
   <JSEditorResizer />
+  <!-- <EditorResizer editorId={"css-editor"} /> -->
   <JsEditor />
 </div>
 
