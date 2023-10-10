@@ -1,21 +1,21 @@
 <script>
   import HTMLEditorResizer from "./HTMLEditorResizer.svelte";
-  import HtmlEditor from "./HTMLEditor.svelte";
+  import HTMLEditor from "./HTMLEditor.svelte";
   import CSSEditorResizer from "./CSSEditorResizer.svelte";
   import CSSEditor from "./CSSEditor.svelte";
   import JSEditorResizer from "./JSEditorResizer.svelte";
-  import JsEditor from "./JSEditor.svelte";
+  import JSEditor from "./JSEditor.svelte";
   import EditorResizer from "./EditorResizer.svelte";
 </script>
 
 <div class="editors">
   <HTMLEditorResizer />
-  <HtmlEditor />
+  <HTMLEditor />
   <CSSEditorResizer />
   <CSSEditor />
   <JSEditorResizer />
   <!-- <EditorResizer editorId={"css-editor"} /> -->
-  <JsEditor />
+  <JSEditor />
 </div>
 
 <style>
@@ -25,5 +25,7 @@
     width: 100%;
     flex: 3;
     display: flex;
+    -webkit-user-select: none;
+    user-select: none;
   }
 </style>

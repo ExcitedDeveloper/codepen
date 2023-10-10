@@ -7,24 +7,30 @@
 
   onMount(() => {
     const wrapper = handler?.closest(".editors");
-    const htmlEditor = wrapper?.querySelector("#html-editor");
+    const htmlEditor = document.getElementById("html-editor");
+    const resizer = document.getElementById("css-editor-resizer");
 
-    document.addEventListener("mousedown", function (e) {
+    resizer?.addEventListener("mousedown", function (e) {
+      console.log(`CSSEditorResizer mousedown`);
       // If mousedown event is fired from .handler, toggle flag to true
       if (e.target === handler) {
+        console.log(`CSSEditorResizer mousedown is dragging`);
         isHandlerDragging = true;
       }
     });
 
-    document.addEventListener("mousemove", function (e) {
+    resizer?.addEventListener("mousemove", function (e) {
+      console.log(`CSSEditorResizer mousemove`);
       // Don't do anything if dragging flag is false
       if (!isHandlerDragging) {
+        console.log(`CSSEditorResizer mousemove is not dragging`);
         return false;
       }
 
       // Get offset
       var containerOffsetLeft = (wrapper as HTMLElement)?.offsetLeft;
 
+      console.log(`CSSEditorResizer x = ${e.clientX}, y = ${e.clientY}`);
       // Get x-coordinate of pointer relative to container
       var pointerRelativeXpos = e.clientX - containerOffsetLeft;
 
@@ -37,16 +43,21 @@
       (htmlEditor as HTMLElement).style.width =
         Math.max(boxAminWidth, pointerRelativeXpos - 8) + "px";
       (htmlEditor as HTMLElement).style.flexGrow = "0";
+      console.log(
+        `CSSEditorResizer mousemove width`,
+        Math.max(boxAminWidth, pointerRelativeXpos - 8) + "px",
+      );
     });
 
-    document.addEventListener("mouseup", function (e) {
+    resizer?.addEventListener("mouseup", function (e) {
+      console.log(`CSSEditorResizer mouseup is not dragging`);
       // Turn off dragging flag when user mouse is up
       isHandlerDragging = false;
     });
   });
 </script>
 
-<div bind:this={handler} class="editor-resizer"></div>
+<div id="css-editor-resizer" bind:this={handler} class="editor-resizer"></div>
 
 <style>
   .editor-resizer {
