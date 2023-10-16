@@ -1,9 +1,13 @@
 <!-- https://stackoverflow.com/questions/46931103/making-a-dragbar-to-resize-divs-inside-css-grids -->
 <script lang="ts">
   import { onMount } from "svelte";
+  import { writable, type Unsubscriber } from "svelte/store";
 
   let handler: HTMLElement;
   let isHandlerDragging = false;
+  let unsubscribe: Unsubscriber;
+
+  const mousemoveCache = writable<{ x: number; y: number }[]>([]);
 
   onMount(() => {
     const wrapper = handler?.closest(".editors");
@@ -14,8 +18,12 @@
       console.log(`CSSEditorResizer mousedown`);
       // If mousedown event is fired from .handler, toggle flag to true
       if (e.target === handler) {
-        console.log(`CSSEditorResizer mousedown is dragging`);
+        console.log(`CSSEditorResizer mousedown handler is dragging`);
         isHandlerDragging = true;
+
+        unsubscribe = mousemoveCache.subscribe((value) => {
+          console.log(`mousemove cache`, value);
+        });
       }
     });
 
@@ -23,16 +31,17 @@
       console.log(`CSSEditorResizer mousemove`);
       // Don't do anything if dragging flag is false
       if (!isHandlerDragging) {
-        console.log(`CSSEditorResizer mousemove is not dragging`);
+        console.log(`CSSEditorResizer mousemove handler is not dragging`);
         return false;
       }
 
       // Get offset
-      var containerOffsetLeft = (wrapper as HTMLElement)?.offsetLeft;
-
+      var containerOffsetLeft = (htmlEditor as HTMLElement)?.offsetLeft;
       console.log(`CSSEditorResizer x = ${e.clientX}, y = ${e.clientY}`);
+
       // Get x-coordinate of pointer relative to container
       var pointerRelativeXpos = e.clientX - containerOffsetLeft;
+      mousemoveCache.update((val) => [...val, { x: e.clientX, y: e.clientY }]);
 
       // Arbitrary minimum width set on box A, otherwise its inner content will collapse to width of 0
       var boxAminWidth = 60;
@@ -53,6 +62,7 @@
       console.log(`CSSEditorResizer mouseup is not dragging`);
       // Turn off dragging flag when user mouse is up
       isHandlerDragging = false;
+      unsubscribe();
     });
   });
 </script>

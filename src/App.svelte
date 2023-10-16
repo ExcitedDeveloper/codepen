@@ -8,7 +8,7 @@
   <!-- <Toolbar /> -->
   <div class="content">
     <Editors />
-    <Output />
+    <!-- <Output /> -->
   </div>
 </main>
 

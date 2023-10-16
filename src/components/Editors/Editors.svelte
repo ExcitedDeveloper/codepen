@@ -14,7 +14,6 @@
   <CSSEditorResizer />
   <CSSEditor />
   <JSEditorResizer />
-  <!-- <EditorResizer editorId={"css-editor"} /> -->
   <JSEditor />
 </div>
 
