@@ -2,6 +2,6 @@
   import Editor from "./Editor.svelte";
 </script>
 
-<Editor id={"js-editor"} />
+<Editor id={"js-editor"} classes="js-editor" />
 
 <style></style>

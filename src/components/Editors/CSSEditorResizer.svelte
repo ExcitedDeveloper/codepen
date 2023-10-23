@@ -1,88 +1,93 @@
 <!-- https://stackoverflow.com/questions/46931103/making-a-dragbar-to-resize-divs-inside-css-grids -->
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { writable, type Unsubscriber } from "svelte/store";
+  import { DraggingStore } from "../../stores";
+  import { get } from "svelte/store";
 
-  let handler: HTMLElement;
-  let isHandlerDragging = false;
-  let unsubscribe: Unsubscriber;
+  const setCursor = (cursor: string) => {
+    const content = document.getElementById("content");
+    if (!content) return;
+    content.style.cursor = cursor;
+  };
 
-  const mousemoveCache = writable<{ x: number; y: number }[]>([]);
+  const startCssEditorResizerDrag = () => {
+    console.log(`startCssEditorResizerDrag`);
+    DraggingStore.update((curr) => ({
+      ...curr,
+      isCSSEditorResizerDragging: true,
+      isJSEditorResizerDragging: false,
+    }));
+    setCursor("ew-resize");
+  };
 
-  onMount(() => {
-    const wrapper = handler?.closest(".editors");
+  const onDragCSSEditorResizer = (event: MouseEvent) => {
+    console.log(
+      `onDragCSSEditorResizer isCSSEditorResizerDragging`,
+      get(DraggingStore).isCSSEditorResizerDragging,
+    );
+    if (!get(DraggingStore).isCSSEditorResizerDragging) {
+      event.preventDefault();
+      return;
+    }
+
+    console.log(`onDrag css resizer dragging`);
+    const content = document.getElementById("content");
     const htmlEditor = document.getElementById("html-editor");
-    const resizer = document.getElementById("css-editor-resizer");
+    const cssEditor = document.getElementById("css-editor");
+    const jsEditorResizer = document.getElementById("js-editor-resizer");
+    const jsEditor = document.getElementById("js-editor");
 
-    resizer?.addEventListener("mousedown", function (e) {
-      console.log(`CSSEditorResizer mousedown`);
-      // If mousedown event is fired from .handler, toggle flag to true
-      if (e.target === handler) {
-        console.log(`CSSEditorResizer mousedown handler is dragging`);
-        isHandlerDragging = true;
+    if (!content || !htmlEditor || !cssEditor || !jsEditorResizer || !jsEditor)
+      return;
+    console.log(`onDrag css resizer found all elements`);
 
-        unsubscribe = mousemoveCache.subscribe((value) => {
-          console.log(`mousemove cache`, value);
-        });
-      }
-    });
+    let dragbarWidth = 18;
 
-    resizer?.addEventListener("mousemove", function (e) {
-      console.log(`CSSEditorResizer mousemove`);
-      // Don't do anything if dragging flag is false
-      if (!isHandlerDragging) {
-        console.log(`CSSEditorResizer mousemove handler is not dragging`);
-        return false;
-      }
+    const htmlEditorColWidth = event.clientX - dragbarWidth;
+    const cssEditorColWidth =
+      jsEditorResizer.getBoundingClientRect().left -
+      event.clientX -
+      dragbarWidth;
+    const jsEditorColWidth =
+      content.clientWidth -
+      jsEditorResizer.getBoundingClientRect().left -
+      dragbarWidth;
+    console.log(`event.clientX`, event.clientX);
+    console.log(`onDrag htmlEditorColWidth`, htmlEditorColWidth);
+    console.log(`onDrag cssEditorColWidth`, cssEditorColWidth);
+    console.log(`onDrag jsEditorColWidth`, jsEditorColWidth);
 
-      // Get offset
-      var containerOffsetLeft = (htmlEditor as HTMLElement)?.offsetLeft;
-      console.log(`CSSEditorResizer x = ${e.clientX}, y = ${e.clientY}`);
+    let cols = [
+      dragbarWidth,
+      htmlEditorColWidth,
+      dragbarWidth,
+      cssEditorColWidth,
+      dragbarWidth,
+      jsEditorColWidth,
+    ];
 
-      // Get x-coordinate of pointer relative to container
-      var pointerRelativeXpos = e.clientX - containerOffsetLeft;
-      mousemoveCache.update((val) => [...val, { x: e.clientX, y: e.clientY }]);
+    let newColDefn = cols.map((c) => c.toString() + "px").join(" ");
 
-      // Arbitrary minimum width set on box A, otherwise its inner content will collapse to width of 0
-      var boxAminWidth = 60;
+    console.log(`onDrag newColDefn`, newColDefn);
+    content.style.gridTemplateColumns = newColDefn;
 
-      // Resize box A
-      // * 8px is the left/right spacing between .handler and its inner pseudo-element
-      // * Set flex-grow to 0 to prevent it from growing
-      (htmlEditor as HTMLElement).style.width =
-        Math.max(boxAminWidth, pointerRelativeXpos - 8) + "px";
-      (htmlEditor as HTMLElement).style.flexGrow = "0";
-      console.log(
-        `CSSEditorResizer mousemove width`,
-        Math.max(boxAminWidth, pointerRelativeXpos - 8) + "px",
-      );
-    });
-
-    resizer?.addEventListener("mouseup", function (e) {
-      console.log(`CSSEditorResizer mouseup is not dragging`);
-      // Turn off dragging flag when user mouse is up
-      isHandlerDragging = false;
-      unsubscribe();
-    });
-  });
+    event.preventDefault();
+  };
 </script>
 
-<div id="css-editor-resizer" bind:this={handler} class="editor-resizer"></div>
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<div
+  id="css-editor-resizer"
+  on:mousedown={startCssEditorResizerDrag}
+  class="editor-resizer"
+  role="separator"
+></div>
 
 <style>
   .editor-resizer {
     width: 18px;
     padding: 0;
     cursor: col-resize;
-    flex: 0 0 auto;
+    grid-area: cssdragbar;
     border: 1px solid purple;
-  }
-
-  .editor-resizer::before {
-    content: "";
-    display: block;
-    width: 4px;
-    height: 100%;
-    margin: 0 auto;
   }
 </style>
