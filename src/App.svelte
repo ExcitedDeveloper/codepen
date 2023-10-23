@@ -34,51 +34,6 @@
     setCursor("auto");
   };
 
-  // const onDrag = (event: MouseEvent) => {
-  //   if (
-  //     get(DraggingStore).isCSSEditorResizerDragging ||
-  //     get(DraggingStore).isJSEditorResizerDragging
-  //   ) {
-  //     console.log(`onDrag dragging`);
-  //     const content = document.getElementById("content");
-  //     const htmlEditor = document.getElementById("html-editor");
-  //     const jsEditor = document.getElementById("js-editor");
-
-  //     if (!content || !htmlEditor || !jsEditor) return;
-  //     console.log(`onDrag found all elements`);
-
-  //     const htmlEditorColWidth = get(DraggingStore).isCSSEditorResizerDragging
-  //       ? event.clientX
-  //       : htmlEditor.clientWidth;
-  //     const jsEditorColWidth = get(DraggingStore).isJSEditorResizerDragging
-  //       ? content.clientWidth - event.clientX
-  //       : jsEditor.clientWidth;
-  //     console.log(`onDrag htmlEditorColWidth`, htmlEditorColWidth);
-  //     console.log(`onDrag jsEditorColWidth`, jsEditorColWidth);
-
-  //     let dragbarWidth = 18;
-
-  //     let cols = [
-  //       dragbarWidth,
-  //       htmlEditorColWidth,
-  //       dragbarWidth,
-  //       content.clientWidth -
-  //         2 * dragbarWidth -
-  //         htmlEditorColWidth -
-  //         jsEditorColWidth,
-  //       dragbarWidth,
-  //       jsEditorColWidth,
-  //     ];
-
-  //     let newColDefn = cols.map((c) => c.toString() + "px").join(" ");
-
-  //     console.log(`onDrag newColDefn`, newColDefn);
-  //     content.style.gridTemplateColumns = newColDefn;
-
-  //     event.preventDefault();
-  //   }
-  // };
-
   const onDragCSSEditorResizer = (event: MouseEvent) => {
     console.log(
       `onDragCSSEditorResizer isCSSEditorResizerDragging`,
@@ -102,11 +57,11 @@
 
     let dragbarWidth = 18;
 
-    const htmlEditorColWidth = event.clientX - dragbarWidth;
+    const htmlEditorColWidth = event.clientX - dragbarWidth * 1.5;
     const cssEditorColWidth =
       jsEditorResizer.getBoundingClientRect().left -
       event.clientX -
-      dragbarWidth;
+      dragbarWidth * 0.5;
     const jsEditorColWidth =
       content.clientWidth -
       jsEditorResizer.getBoundingClientRect().left -
@@ -133,11 +88,76 @@
     event.preventDefault();
   };
 
+  const onDragJSEditorResizer = (event: MouseEvent) => {
+    console.log(
+      `onDragJSEditorResizer isJSEditorResizerDragging`,
+      get(DraggingStore).isJSEditorResizerDragging,
+    );
+    if (!get(DraggingStore).isJSEditorResizerDragging) {
+      event.preventDefault();
+      return;
+    }
+
+    console.log(`onDrag js resizer dragging`);
+    const content = document.getElementById("content");
+    const htmlEditorResizer = document.getElementById("html-editor-resizer");
+    const htmlEditor = document.getElementById("html-editor");
+    const cssEditorResizer = document.getElementById("css-editor-resizer");
+    const cssEditor = document.getElementById("css-editor");
+    const jsEditorResizer = document.getElementById("js-editor-resizer");
+    const jsEditor = document.getElementById("js-editor");
+
+    if (
+      !content ||
+      !htmlEditor ||
+      !cssEditor ||
+      !jsEditorResizer ||
+      !jsEditor ||
+      !cssEditorResizer ||
+      !htmlEditorResizer
+    )
+      return;
+    console.log(`onDrag js resizer found all elements`);
+
+    let dragbarWidth = 18;
+
+    const htmlEditorColWidth =
+      cssEditorResizer.getBoundingClientRect().left -
+      htmlEditorResizer.getBoundingClientRect().left -
+      dragbarWidth;
+    const cssEditorColWidth =
+      event.clientX -
+      cssEditorResizer.getBoundingClientRect().left -
+      dragbarWidth * 1.5;
+    const jsEditorColWidth =
+      content.clientWidth - event.clientX - dragbarWidth * 0.5;
+    console.log(`event.clientX`, event.clientX);
+    console.log(`onDrag htmlEditorColWidth`, htmlEditorColWidth);
+    console.log(`onDrag cssEditorColWidth`, cssEditorColWidth);
+    console.log(`onDrag jsEditorColWidth`, jsEditorColWidth);
+
+    let cols = [
+      dragbarWidth,
+      htmlEditorColWidth,
+      dragbarWidth,
+      cssEditorColWidth,
+      dragbarWidth,
+      jsEditorColWidth,
+    ];
+
+    let newColDefn = cols.map((c) => c.toString() + "px").join(" ");
+
+    console.log(`onDrag newColDefn`, newColDefn);
+    content.style.gridTemplateColumns = newColDefn;
+
+    event.preventDefault();
+  };
+
   const onDrag = (event: MouseEvent) => {
     if (get(DraggingStore).isCSSEditorResizerDragging) {
       onDragCSSEditorResizer(event);
-    } else {
-      //
+    } else if (get(DraggingStore).isJSEditorResizerDragging) {
+      onDragJSEditorResizer(event);
     }
   };
 </script>
