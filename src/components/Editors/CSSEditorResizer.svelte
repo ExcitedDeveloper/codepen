@@ -1,12 +1,7 @@
 <!-- https://stackoverflow.com/questions/46931103/making-a-dragbar-to-resize-divs-inside-css-grids -->
 <script lang="ts">
   import { DraggingStore } from "../../stores";
-
-  const setCursor = (cursor: string) => {
-    const content = document.getElementById("content");
-    if (!content) return;
-    content.style.cursor = cursor;
-  };
+  import { setCursor } from "../../utils/setCursor";
 
   const startCssEditorResizerDrag = () => {
     DraggingStore.update(() => ({

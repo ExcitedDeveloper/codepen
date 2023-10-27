@@ -10,6 +10,7 @@
   import CSSEditor from "./components/Editors/CSSEditor.svelte";
   import JSEditorResizer from "./components/Editors/JSEditorResizer.svelte";
   import JSEditor from "./components/Editors/JSEditor.svelte";
+  import { setCursor } from "./utils/setCursor";
 
   type NullableHTMLElement = HTMLElement | null;
 
@@ -37,12 +38,6 @@
     const content = document.getElementById("content");
     if (!content) return;
     content.style.gridTemplateColumns = "18px 1fr 18px 1fr 18px 1fr";
-  };
-
-  const setCursor = (cursor: string) => {
-    const content = document.getElementById("content");
-    if (!content) return;
-    content.style.cursor = cursor;
   };
 
   const endDrag = () => {
