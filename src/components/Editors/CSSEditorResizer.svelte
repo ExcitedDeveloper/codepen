@@ -1,7 +1,6 @@
 <!-- https://stackoverflow.com/questions/46931103/making-a-dragbar-to-resize-divs-inside-css-grids -->
 <script lang="ts">
   import { DraggingStore } from "../../stores";
-  import { get } from "svelte/store";
 
   const setCursor = (cursor: string) => {
     const content = document.getElementById("content");
@@ -10,9 +9,7 @@
   };
 
   const startCssEditorResizerDrag = () => {
-    console.log(`startCssEditorResizerDrag`);
-    DraggingStore.update((curr) => ({
-      ...curr,
+    DraggingStore.update(() => ({
       isCSSEditorResizerDragging: true,
       isJSEditorResizerDragging: false,
     }));

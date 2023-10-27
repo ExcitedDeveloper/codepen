@@ -26,7 +26,6 @@
 
       // Get offset
       var containerOffsetLeft = (targetEditor as HTMLElement)?.offsetLeft;
-      console.log(`EditorResizer x = ${e.clientX}, y = ${e.clientY}`);
 
       // Get x-coordinate of pointer relative to container
       var pointerRelativeXpos = e.clientX - containerOffsetLeft;

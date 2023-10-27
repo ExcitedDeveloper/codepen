@@ -10,9 +10,7 @@
   };
 
   const startJSEditorResizerDrag = () => {
-    console.log(`startJSEditorResizerDrag`);
-    DraggingStore.update((curr) => ({
-      ...curr,
+    DraggingStore.update(() => ({
       isJSEditorResizerDragging: true,
       isCSSEditorResizerDragging: false,
     }));
