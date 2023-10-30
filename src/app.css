@@ -1,5 +1,9 @@
 :root {
   --app-background: #060606;
+  --cp-font-family: "Lato", "Lucida Grande", "Lucida Sans Unicode", Tahoma,
+    Sans-Serif;
+  --cp-color-8-hsl: 226.67deg 11.84% 70.2%;
+  --cp-color-8: hsl(var(--cp-color-8-hsl));
 }
 
 html {
