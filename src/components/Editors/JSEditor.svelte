@@ -36,6 +36,9 @@
   }
 
   .editor-title {
+    container-type: inline-size;
+    container-name: jseditortitle;
+
     background: var(--editor-background);
     width: 96px;
 
