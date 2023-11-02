@@ -30,14 +30,12 @@
   }
 
   .editor-powers {
+    container: csstitle / inline-size;
     height: var(--editor-action-height);
     display: flex;
   }
 
   .editor-title {
-    container-type: inline-size;
-    container-name: csseditortitle;
-
     background: var(--editor-background);
     width: 96px;
 
@@ -58,6 +56,39 @@
     -ms-flex-align: center;
     align-items: center;
     padding: 9px 12px;
+
+    margin-left: 1px;
+    -webkit-transition: -webkit-transform 0.2s;
+    transition: -webkit-transform 0.2s;
+    transition: transform 0.2s;
+    transition:
+      transform 0.2s,
+      -webkit-transform 0.2s;
+    -webkit-transform-origin: left center;
+    transform-origin: left center;
+  }
+
+  @container csstitle (max-width: 165px) {
+    .editor-title {
+      -webkit-transform: translate(-8px, -19px) rotate(90deg) scale(0.66);
+      transform: translate(-8px, -19px) rotate(90deg) scale(0.66);
+
+      background: none;
+      position: absolute;
+      left: 0;
+      top: 20px;
+      padding: 10px 0 0 0;
+      z-index: 2;
+      pointer-events: none;
+      -webkit-transition: -webkit-transform 0.2s;
+      transition: -webkit-transform 0.2s;
+      transition: transform 0.2s;
+      transition:
+        transform 0.2s,
+        -webkit-transform 0.2s;
+      -webkit-transform-origin: left center;
+      transform-origin: left center;
+    }
   }
 
   .file-type-icon {

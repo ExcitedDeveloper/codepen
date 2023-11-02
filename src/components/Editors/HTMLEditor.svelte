@@ -20,7 +20,6 @@
 
 <style>
   .editor {
-    border: 1px solid teal;
     --editor-action-height: 36px;
     --editor-background: rgb(29, 30, 34);
     background: var(--editor-background);
