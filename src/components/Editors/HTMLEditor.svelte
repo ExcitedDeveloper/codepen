@@ -3,16 +3,18 @@
 
 <div id="html-editor" class="editor html-editor">
   <div class="editor-powers">
-    <h2 class="editor-title">
-      <svg viewBox="0 0 15 15" class="file-type-icon" id="icon-file-html">
-        <rect fill="#FF3C41" width="15" height="15" rx="4"></rect>
-        <path
-          d="M10.97 2.29a.563.563 0 0 0-.495-.29.572.572 0 0 0-.488.277l-5.905 9.86a.565.565 0 0 0-.007.574c.102.18.287.289.495.289a.572.572 0 0 0 .488-.277l5.905-9.86a.565.565 0 0 0 .007-.574"
-          fill="#28282B"
-        ></path>
-      </svg>
-      <span>HTML</span>
-    </h2>
+    <div class="editor-powers-left">
+      <h2 class="editor-title">
+        <svg viewBox="0 0 15 15" class="file-type-icon" id="icon-file-html">
+          <rect fill="#FF3C41" width="15" height="15" rx="4"></rect>
+          <path
+            d="M10.97 2.29a.563.563 0 0 0-.495-.29.572.572 0 0 0-.488.277l-5.905 9.86a.565.565 0 0 0-.007.574c.102.18.287.289.495.289a.572.572 0 0 0 .488-.277l5.905-9.86a.565.565 0 0 0 .007-.574"
+            fill="#28282B"
+          ></path>
+        </svg>
+        <span>HTML</span>
+      </h2>
+    </div>
     <div class="editor-actions">
       <button>O/C</button>
     </div>
@@ -35,6 +37,12 @@
     container: htmltitle / inline-size;
     height: var(--editor-action-height);
     display: flex;
+  }
+
+  .editor-powers-left {
+    flex: 1 1 auto;
+    background: var(--app-background);
+    min-width: 96px;
   }
 
   .editor-title {
@@ -102,7 +110,7 @@
 
   .editor-actions {
     background: var(--app-background);
-    flex: 1;
+    margin-left: auto;
   }
 
   .editor-actions button {
