@@ -13,14 +13,15 @@
       </svg>
       <span>JS</span>
     </h2>
-    <div class="editor-actions"></div>
+    <div class="editor-actions">
+      <button>O/C</button>
+    </div>
   </div>
   <div class="editor-code"></div>
 </div>
 
 <style>
   .editor {
-    border: 1px solid teal;
     --editor-action-height: 36px;
     --editor-background: rgb(29, 30, 34);
     background: var(--editor-background);
@@ -102,6 +103,11 @@
   .editor-actions {
     background: var(--app-background);
     flex: 1;
+  }
+
+  .editor-actions button {
+    float: right;
+    height: 100%;
   }
 
   .editor-code {

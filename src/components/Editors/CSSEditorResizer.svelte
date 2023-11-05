@@ -26,6 +26,5 @@
     padding: 0;
     cursor: col-resize;
     grid-area: cssdragbar;
-    border: 1px solid purple;
   }
 </style>
