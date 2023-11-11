@@ -11,10 +11,10 @@
   import JSEditorResizer from "./components/Editors/JSEditorResizer.svelte";
   import JSEditor from "./components/Editors/JSEditor.svelte";
   import { setCursor } from "./utils/setCursor";
+  import { Editors } from "./utils/editors";
+  import type { NullableHTMLElement } from "./utils/types";
+  import { dragbarWidth } from "./utils/constants";
 
-  type NullableHTMLElement = HTMLElement | null;
-
-  const dragbarWidth = 18;
   let content: NullableHTMLElement;
   let htmlEditorResizer: NullableHTMLElement;
   let htmlEditor: NullableHTMLElement;

@@ -1,4 +1,41 @@
-<script>
+<script lang="ts">
+  import { onMount } from "svelte";
+  import { OpenState, toggleOpenState } from "../../utils/openState";
+  import {
+    collapseHTMLEditor,
+    expandHTMLEditor,
+  } from "../../utils/expandCollapse";
+  import type { NullableHTMLElement } from "../../utils/types";
+
+  $: open = OpenState.Open;
+
+  let content: NullableHTMLElement;
+  let htmlEditorResizer: NullableHTMLElement;
+  let htmlEditor: NullableHTMLElement;
+  let cssEditorResizer: NullableHTMLElement;
+  let cssEditor: NullableHTMLElement;
+  let jsEditorResizer: NullableHTMLElement;
+  let jsEditor: NullableHTMLElement;
+
+  onMount(() => {
+    content = document.getElementById("content");
+    htmlEditorResizer = document.getElementById("html-editor-resizer");
+    htmlEditor = document.getElementById("html-editor");
+    cssEditorResizer = document.getElementById("css-editor-resizer");
+    cssEditor = document.getElementById("css-editor");
+    jsEditorResizer = document.getElementById("js-editor-resizer");
+    jsEditor = document.getElementById("js-editor");
+  });
+
+  const handleClick = () => {
+    open = toggleOpenState(open);
+
+    if (open === OpenState.Closed) {
+      collapseHTMLEditor(content, jsEditorResizer, jsEditor);
+    } else {
+      expandHTMLEditor();
+    }
+  };
 </script>
 
 <div id="html-editor" class="editor html-editor">
@@ -16,7 +53,7 @@
       </h2>
     </div>
     <div class="editor-actions">
-      <button>O/C</button>
+      <button on:click={handleClick}>O/C</button>
     </div>
   </div>
   <div class="editor-code"></div>
