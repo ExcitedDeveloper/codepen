@@ -2,7 +2,12 @@
   // import Toolbar from "./components/Toolbar.svelte";
   import { onMount } from "svelte";
   import Output from "./components/Output.svelte";
-  import { DraggingStore } from "./stores";
+  import {
+    DraggingStore,
+    HTMLEditorOpenStore,
+    CSSEditorOpenStore,
+    JSEditorOpenStore,
+  } from "./stores";
   import { get } from "svelte/store";
   import HTMLEditorResizer from "./components/Editors/HTMLEditorResizer.svelte";
   import HTMLEditor from "./components/Editors/HTMLEditor.svelte";
@@ -14,6 +19,7 @@
   import { Editors } from "./utils/editors";
   import type { NullableHTMLElement } from "./utils/types";
   import { dragbarWidth } from "./utils/constants";
+  import { OpenState } from "./utils/openState";
 
   let content: NullableHTMLElement;
   let htmlEditorResizer: NullableHTMLElement;
@@ -82,6 +88,18 @@
     const jsEditorColWidth = get(DraggingStore).isCSSEditorResizerDragging
       ? content.clientWidth - leftJsResizer - dragbarWidth
       : content.clientWidth - event.clientX - dragbarWidth * 0.5;
+
+    HTMLEditorOpenStore.update(() =>
+      htmlEditorColWidth <= 0 ? OpenState.Closed : OpenState.Open,
+    );
+
+    CSSEditorOpenStore.update(() =>
+      cssEditorColWidth <= 0 ? OpenState.Closed : OpenState.Open,
+    );
+
+    JSEditorOpenStore.update(() =>
+      jsEditorColWidth <= 0 ? OpenState.Closed : OpenState.Open,
+    );
 
     return {
       htmlEditorColWidth,

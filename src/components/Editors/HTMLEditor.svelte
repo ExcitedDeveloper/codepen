@@ -1,13 +1,13 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { get } from "svelte/store";
   import { OpenState, toggleOpenState } from "../../utils/openState";
   import {
     collapseHTMLEditor,
     expandHTMLEditor,
   } from "../../utils/expandCollapse";
   import type { NullableHTMLElement } from "../../utils/types";
-
-  $: open = OpenState.Open;
+  import { HTMLEditorOpenStore } from "../../stores";
 
   let content: NullableHTMLElement;
   let htmlEditorResizer: NullableHTMLElement;
@@ -28,9 +28,9 @@
   });
 
   const handleClick = () => {
-    open = toggleOpenState(open);
+    HTMLEditorOpenStore.update(() => toggleOpenState(get(HTMLEditorOpenStore)));
 
-    if (open === OpenState.Closed) {
+    if (get(HTMLEditorOpenStore) === OpenState.Closed) {
       collapseHTMLEditor(content, cssEditor, jsEditorResizer, jsEditor);
     } else {
       expandHTMLEditor();
