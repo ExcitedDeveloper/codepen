@@ -31,7 +31,7 @@
     open = toggleOpenState(open);
 
     if (open === OpenState.Closed) {
-      collapseHTMLEditor(content, jsEditorResizer, jsEditor);
+      collapseHTMLEditor(content, cssEditor, jsEditorResizer, jsEditor);
     } else {
       expandHTMLEditor();
     }
