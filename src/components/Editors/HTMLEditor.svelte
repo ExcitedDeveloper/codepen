@@ -2,28 +2,17 @@
   import { onMount } from "svelte";
   import { get } from "svelte/store";
   import { OpenState, toggleOpenState } from "../../utils/openState";
-  import {
-    collapseHTMLEditor,
-    expandHTMLEditor,
-  } from "../../utils/expandCollapse";
+  import { collapseHTMLEditor } from "../../utils/expandCollapse";
   import type { NullableHTMLElement } from "../../utils/types";
   import { HTMLEditorOpenStore } from "../../stores";
 
   let content: NullableHTMLElement;
-  let htmlEditorResizer: NullableHTMLElement;
-  let htmlEditor: NullableHTMLElement;
-  let cssEditorResizer: NullableHTMLElement;
   let cssEditor: NullableHTMLElement;
-  let jsEditorResizer: NullableHTMLElement;
   let jsEditor: NullableHTMLElement;
 
   onMount(() => {
     content = document.getElementById("content");
-    htmlEditorResizer = document.getElementById("html-editor-resizer");
-    htmlEditor = document.getElementById("html-editor");
-    cssEditorResizer = document.getElementById("css-editor-resizer");
     cssEditor = document.getElementById("css-editor");
-    jsEditorResizer = document.getElementById("js-editor-resizer");
     jsEditor = document.getElementById("js-editor");
   });
 
@@ -31,9 +20,7 @@
     HTMLEditorOpenStore.update(() => toggleOpenState(get(HTMLEditorOpenStore)));
 
     if (get(HTMLEditorOpenStore) === OpenState.Closed) {
-      collapseHTMLEditor(content, cssEditor, jsEditorResizer, jsEditor);
-    } else {
-      expandHTMLEditor();
+      collapseHTMLEditor(content, cssEditor, jsEditor);
     }
   };
 </script>

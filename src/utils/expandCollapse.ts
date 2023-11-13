@@ -1,35 +1,19 @@
 import { dragbarWidth } from "./constants";
 import type { NullableHTMLElement } from "./types";
 
-export const expandHTMLEditor = () => {
-  //
-};
-
 export const collapseHTMLEditor = (
   content: NullableHTMLElement,
   cssEditor: NullableHTMLElement,
-  jsEditorResizer: NullableHTMLElement,
   jsEditor: NullableHTMLElement,
 ) => {
-  if (!content || !cssEditor || !jsEditorResizer || !jsEditor) return null;
-
-  const cssEditorRect = cssEditor.getBoundingClientRect();
+  if (!content || !cssEditor || !jsEditor) return;
 
   const htmlEditorColWidth = 0;
-
-  // If cssEditorRect.width > 0, the css editor is not collapsed.
-  // Collapse the css editor and leave the js editor at it's
-  // current width.
-  // Else cssEditorReact is already collapsed.  Give the js editor
-  // the remaining content width.
   const cssEditorColWidth =
-    cssEditorRect.width > 0
-      ? jsEditorResizer.getBoundingClientRect().left - dragbarWidth * 2
-      : 0;
+    cssEditor?.getBoundingClientRect().width +
+    jsEditor?.getBoundingClientRect().width / 2;
   const jsEditorColWidth =
-    cssEditorRect.width > 0
-      ? jsEditor.getBoundingClientRect().width
-      : content.clientWidth - dragbarWidth * 3;
+    content?.clientWidth - dragbarWidth * 3 - htmlEditorColWidth;
 
   let cols = [
     dragbarWidth,
@@ -45,18 +29,58 @@ export const collapseHTMLEditor = (
   content.style.gridTemplateColumns = newColDefn;
 };
 
-export const expandCSSEditor = () => {
-  //
+export const collapseCSSEditor = (
+  content: NullableHTMLElement,
+  htmlEditor: NullableHTMLElement,
+  cssEditor: NullableHTMLElement,
+) => {
+  if (!content || !htmlEditor || !cssEditor) return;
+
+  const htmlEditorColWidth =
+    htmlEditor?.getBoundingClientRect().width +
+    cssEditor?.getBoundingClientRect().width / 2;
+  const cssEditorColWidth = 0;
+  const jsEditorColWidth =
+    content?.clientWidth - dragbarWidth * 3 - htmlEditorColWidth;
+
+  let cols = [
+    dragbarWidth,
+    htmlEditorColWidth,
+    dragbarWidth,
+    cssEditorColWidth,
+    dragbarWidth,
+    jsEditorColWidth,
+  ];
+
+  let newColDefn = cols.map((c) => c.toString() + "px").join(" ");
+
+  content.style.gridTemplateColumns = newColDefn;
 };
 
-export const collapseCSSEditor = () => {
-  //
-};
+export const collapseJSEditor = (
+  content: NullableHTMLElement,
+  htmlEditor: NullableHTMLElement,
+  jsEditor: NullableHTMLElement,
+) => {
+  if (!content || !htmlEditor || !jsEditor) return;
 
-export const expandJSEditor = () => {
-  //
-};
+  const htmlEditorColWidth =
+    htmlEditor?.getBoundingClientRect().width +
+    jsEditor?.getBoundingClientRect().width / 2;
+  const cssEditorColWidth =
+    content?.clientWidth - dragbarWidth * 3 - htmlEditorColWidth;
+  const jsEditorColWidth = 0;
 
-export const collapseJSEditor = () => {
-  //
+  let cols = [
+    dragbarWidth,
+    htmlEditorColWidth,
+    dragbarWidth,
+    cssEditorColWidth,
+    dragbarWidth,
+    jsEditorColWidth,
+  ];
+
+  let newColDefn = cols.map((c) => c.toString() + "px").join(" ");
+
+  content.style.gridTemplateColumns = newColDefn;
 };

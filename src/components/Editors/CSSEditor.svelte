@@ -1,4 +1,28 @@
-<script>
+<script lang="ts">
+  import { onMount } from "svelte";
+  import { get } from "svelte/store";
+  import { OpenState, toggleOpenState } from "../../utils/openState";
+  import { collapseCSSEditor } from "../../utils/expandCollapse";
+  import { CSSEditorOpenStore } from "../../stores";
+  import type { NullableHTMLElement } from "../../utils/types";
+
+  let content: NullableHTMLElement;
+  let htmlEditor: NullableHTMLElement;
+  let cssEditor: NullableHTMLElement;
+
+  onMount(() => {
+    content = document.getElementById("content");
+    htmlEditor = document.getElementById("html-editor");
+    cssEditor = document.getElementById("css-editor");
+  });
+
+  const handleClick = () => {
+    CSSEditorOpenStore.update(() => toggleOpenState(get(CSSEditorOpenStore)));
+
+    if (get(CSSEditorOpenStore) === OpenState.Closed) {
+      collapseCSSEditor(content, htmlEditor, cssEditor);
+    }
+  };
 </script>
 
 <div id="css-editor" class="editor css-editor">
@@ -15,7 +39,7 @@
       </h2>
     </div>
     <div class="editor-actions">
-      <button>O/C</button>
+      <button on:click={handleClick}>O/C</button>
     </div>
   </div>
   <div class="editor-code"></div>
