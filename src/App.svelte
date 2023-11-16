@@ -20,6 +20,7 @@
   import type { NullableHTMLElement } from "./utils/types";
   import { dragbarWidth } from "./utils/constants";
   import { OpenState } from "./utils/openState";
+  import "@fortawesome/fontawesome-free/css/all.min.css";
 
   let content: NullableHTMLElement;
   let htmlEditorResizer: NullableHTMLElement;
