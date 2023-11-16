@@ -39,13 +39,24 @@
       </h2>
     </div>
     <div class="editor-actions">
-      <button on:click={handleClick}>O/C</button>
+      <button
+        type="button"
+        class="editor-collapse-button"
+        on:click={handleClick}><i class="fas fa-compress-alt fa-lg"></i></button
+      >
     </div>
   </div>
   <div class="editor-code"></div>
 </div>
 
 <style>
+  .editor-collapse-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+
   .editor {
     --editor-action-height: 36px;
     --editor-background: rgb(29, 30, 34);
