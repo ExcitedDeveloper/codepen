@@ -5,6 +5,7 @@
   import { collapseHTMLEditor } from "../../utils/expandCollapse";
   import type { NullableHTMLElement } from "../../utils/types";
   import { HTMLEditorOpenStore } from "../../stores";
+  import Editor from "./Editor.svelte";
 
   let content: NullableHTMLElement;
   let cssEditor: NullableHTMLElement;
@@ -47,7 +48,7 @@
       >
     </div>
   </div>
-  <div class="editor-code"></div>
+  <Editor changeHandler={(value) => console.log(`HTMLEditor changed`, value)} />
 </div>
 
 <style>

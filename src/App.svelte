@@ -147,7 +147,7 @@
     <CSSEditor />
     <JSEditorResizer />
     <JSEditor />
-    <!-- <Output /> -->
+    <Output />
   </div>
 </main>
 
@@ -160,7 +160,7 @@
     height: 100%;
     display: grid;
     grid-template-areas: "htmldragbar htmleditor cssdragbar csseditor jsdragbar jseditor" "output output output output output output";
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: minmax(250px, 1fr) minmax(250px, 1fr);
     grid-template-columns: 18px 1fr 18px 1fr 18px 1fr;
   }
 

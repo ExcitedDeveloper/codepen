@@ -1,7 +1,15 @@
 <script>
 </script>
 
-<div class="output">Output</div>
+<div class="output">
+  <iframe
+    title="output"
+    sandbox="allow-scripts"
+    frameborder="0"
+    width="100%"
+    height="100%"
+  />
+</div>
 
 <style>
   .output {

@@ -1,57 +1,32 @@
-<script>
-  /**
-   * @type {string}
-   */
-  export let id;
-  /**
-   * @type {string}
-   */
-  export let classes;
+<script lang="ts">
+  import CodeMirror from "svelte-codemirror-editor";
+  import { javascript } from "@codemirror/lang-javascript";
+  import { oneDark } from "@codemirror/theme-one-dark";
+  import { gutter, lineNumbers } from "@codemirror/gutter";
+
+  export let changeHandler;
+
+  let value = "";
 </script>
 
-<div {id} class={`editor ${classes}`}>
-  <div class="editor-powers">
-    <div class="editor-title"></div>
-    <div class="editor-actions"></div>
-  </div>
-  <div class="editor-code"></div>
+<div class="editor-code">
+  <CodeMirror
+    bind:value
+    lang={javascript()}
+    theme={oneDark}
+    on:change={() => changeHandler(value)}
+    styles={{
+      "&": {
+        maxHeight: "100%",
+        height: "100%",
+      },
+    }}
+  />
 </div>
 
 <style>
-  .editor {
-    --editor-action-height: 36px;
-    --editor-background: rgb(29, 30, 34);
-    background: var(--editor-background);
-  }
-
-  .html-editor {
-    grid-area: htmleditor;
-  }
-
-  .css-editor {
-    grid-area: csseditor;
-  }
-
-  .js-editor {
-    grid-area: jseditor;
-  }
-
-  .editor-powers {
-    height: var(--editor-action-height);
-    display: flex;
-  }
-
-  .editor-title {
-    background: var(--editor-background);
-    width: 96px;
-  }
-
-  .editor-actions {
-    background: var(--app-background);
-    flex: 1;
-  }
-
   .editor-code {
     height: calc(100% - var(--editor-action-height));
+    overflow-y: auto;
   }
 </style>

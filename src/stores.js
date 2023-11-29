@@ -7,5 +7,6 @@ export const DraggingStore = writable({
 });
 
 export const HTMLEditorOpenStore = writable(OpenState.Open);
+export const HTMLEditorContent = writable("");
 export const CSSEditorOpenStore = writable(OpenState.Open);
 export const JSEditorOpenStore = writable(OpenState.Open);

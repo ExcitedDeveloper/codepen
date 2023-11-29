@@ -70,7 +70,7 @@ export const collapseCSSEditor = (
   const htmlEditorIsCollapsed = get(HTMLEditorOpenStore) === OpenState.Closed;
   const jsEditorIsCollapsed = get(JSEditorOpenStore) === OpenState.Closed;
 
-  // If html and js editors are collapses, then don't
+  // If html and js editors are collapsed, then don't
   // collapse css editor
   if (htmlEditorIsCollapsed && jsEditorIsCollapsed) return;
 
