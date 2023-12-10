@@ -6,13 +6,28 @@
   import type { NullableHTMLElement } from "../../utils/types";
   import { HTMLEditorOpenStore } from "../../stores";
   import Editor from "./Editor.svelte";
+  import { EditorView, basicSetup } from "codemirror";
+  import { EditorState } from "@codemirror/state";
+  import { html } from "@codemirror/lang-html";
+  import { lineNumbers } from "@codemirror/view";
 
   let content: NullableHTMLElement;
+  let htmlCode: NullableHTMLElement;
   let cssEditor: NullableHTMLElement;
   let jsEditor: NullableHTMLElement;
+  let htmlCodeState: any;
+
+  const state = EditorState.create({
+    doc: "<h1></h1>",
+    parent: document.body,
+    extensions: [basicSetup, html(), lineNumbers()],
+  });
+
+  const view = new EditorView({ state });
 
   onMount(() => {
     content = document.getElementById("content");
+    htmlCode = document.getElementById("html-code").appendChild(view.dom);
     cssEditor = document.getElementById("css-editor");
     jsEditor = document.getElementById("js-editor");
   });
@@ -48,7 +63,8 @@
       >
     </div>
   </div>
-  <Editor changeHandler={(value) => console.log(`HTMLEditor changed`, value)} />
+  <!-- <Editor changeHandler={(value) => console.log(`HTMLEditor changed`, value)} /> -->
+  <div id="html-code"></div>
 </div>
 
 <style>

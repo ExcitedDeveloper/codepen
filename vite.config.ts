@@ -7,8 +7,12 @@ export default defineConfig({
   optimizeDeps: {
     exclude: [
       "codemirror",
-      "@codemirror/language-javascript",
+      "@codemirror/lang-html",
+      "@codemirror/lang-css",
+      "@codemirror/lang-javascript",
       "@codemirror/state",
+      "@codemirror/gutter",
+      "@codemirror/view",
     ],
   },
 });
