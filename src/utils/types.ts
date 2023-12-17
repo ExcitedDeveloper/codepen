@@ -1,1 +1,1 @@
-export type NullableHTMLElement = HTMLElement | null;
+export type NullableHTMLElement = HTMLElement | null | undefined;

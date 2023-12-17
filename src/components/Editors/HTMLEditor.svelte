@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import { get } from "svelte/store";
   import { OpenState, toggleOpenState } from "../../utils/openState";
   import { collapseHTMLEditor } from "../../utils/expandCollapse";
@@ -8,28 +8,89 @@
   import Editor from "./Editor.svelte";
   import { EditorView, basicSetup } from "codemirror";
   import { EditorState } from "@codemirror/state";
-  import { html } from "@codemirror/lang-html";
+  import { javascript } from "@codemirror/lang-javascript";
   import { lineNumbers } from "@codemirror/view";
+  import * as monaco from "monaco-editor";
+  import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
+  import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
+  import cssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
+  import htmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
+  import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
+  import { code as htmlCode } from "../../lib/html_code";
+  import { code as jsCode } from "../../lib/js_code";
+
+  let editorElement: HTMLDivElement;
+  let editor: monaco.editor.IStandaloneCodeEditor;
+  let model: monaco.editor.ITextModel;
 
   let content: NullableHTMLElement;
-  let htmlCode: NullableHTMLElement;
+  let htmlEditor: NullableHTMLElement;
   let cssEditor: NullableHTMLElement;
   let jsEditor: NullableHTMLElement;
   let htmlCodeState: any;
 
-  const state = EditorState.create({
-    doc: "<h1></h1>",
-    parent: document.body,
-    extensions: [basicSetup, html(), lineNumbers()],
+  function loadCode(code: string, language: string) {
+    model = monaco.editor.createModel(code, language);
+
+    editor.setModel(model);
+  }
+
+  // const state = EditorState.create({
+  //   doc: "console.log(`Hello World`);",
+  //   parent: document.body,
+  //   extensions: [basicSetup, javascript(), lineNumbers()],
+  // });
+
+  // const view = new EditorView({ state });
+
+  // onMount(() => {
+  //   content = document.getElementById("content");
+  //   htmlEditor = document.getElementById("html-code").appendChild(view.dom);
+  //   cssEditor = document.getElementById("css-editor");
+  //   jsEditor = document.getElementById("js-editor");
+  // });
+
+  onMount(async () => {
+    // content = document.getElementById("content");
+    // htmlEditor = document.getElementById("html-code")?.appendChild(view.dom);
+    // cssEditor = document.getElementById("css-editor");
+    // jsEditor = document.getElementById("js-editor");
+
+    self.MonacoEnvironment = {
+      getWorker: function (_: any, label: string) {
+        if (label === "json") {
+          return new jsonWorker();
+        }
+        if (label === "css" || label === "scss" || label === "less") {
+          return new cssWorker();
+        }
+        if (label === "html" || label === "handlebars" || label === "razor") {
+          return new htmlWorker();
+        }
+        if (label === "typescript" || label === "javascript") {
+          return new tsWorker();
+        }
+        return new editorWorker();
+      },
+    };
+
+    monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
+
+    editor = monaco.editor.create(editorElement, {
+      automaticLayout: true,
+      theme: "vs-dark",
+    });
+
+    editor.onDidChangeModelContent((e) => {
+      console.log(editor.getValue());
+    });
+
+    loadCode(jsCode, "javascript");
   });
 
-  const view = new EditorView({ state });
-
-  onMount(() => {
-    content = document.getElementById("content");
-    htmlCode = document.getElementById("html-code").appendChild(view.dom);
-    cssEditor = document.getElementById("css-editor");
-    jsEditor = document.getElementById("js-editor");
+  onDestroy(() => {
+    monaco?.editor.getModels().forEach((model) => model.dispose());
+    editor?.dispose();
   });
 
   const handleClick = () => {
@@ -64,7 +125,8 @@
     </div>
   </div>
   <!-- <Editor changeHandler={(value) => console.log(`HTMLEditor changed`, value)} /> -->
-  <div id="html-code"></div>
+  <!-- <div id="html-code"></div> -->
+  <div class="editor-code" bind:this={editorElement} />
 </div>
 
 <style>
