@@ -31,7 +31,8 @@ export const collapseHTMLEditor = (
     // Give each editor half of the available space.
     cssEditorColWidth =
       cssEditor?.getBoundingClientRect().width +
-      jsEditor?.getBoundingClientRect().width / 2;
+      jsEditor?.getBoundingClientRect().width / 2 +
+      40;
     jsEditorColWidth =
       content.clientWidth - dragbarWidth * 3 - cssEditorColWidth;
   } else if (cssEditorIsCollapsed) {

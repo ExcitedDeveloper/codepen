@@ -156,5 +156,6 @@
 
   .editor-code {
     height: calc(100% - var(--editor-action-height));
+    overflow-y: hidden;
   }
 </style>
