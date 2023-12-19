@@ -1,27 +1,79 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import { get } from "svelte/store";
   import { OpenState, toggleOpenState } from "../../utils/openState";
   import { collapseCSSEditor } from "../../utils/expandCollapse";
-  import { CSSEditorOpenStore } from "../../stores";
   import type { NullableHTMLElement } from "../../utils/types";
-  import Editor from "./Editor.svelte";
+  import { CSSEditorOpenStore } from "../../stores";
+  import * as monaco from "monaco-editor";
+  import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
+  import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
+  import cssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
+  import htmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
+  import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
+
+  let editorElement: HTMLDivElement;
+  let editor: monaco.editor.IStandaloneCodeEditor;
+  let model: monaco.editor.ITextModel;
 
   let content: NullableHTMLElement;
   let htmlEditor: NullableHTMLElement;
-  let cssEditor: NullableHTMLElement;
+  let jsEditor: NullableHTMLElement;
 
-  onMount(() => {
+  function loadCode(code: string, language: string) {
+    model = monaco.editor.createModel(code, language);
+
+    editor.setModel(model);
+  }
+
+  onMount(async () => {
     content = document.getElementById("content");
     htmlEditor = document.getElementById("html-editor");
-    cssEditor = document.getElementById("css-editor");
+    jsEditor = document.getElementById("js-editor");
+
+    self.MonacoEnvironment = {
+      getWorker: function (_: any, label: string) {
+        if (label === "json") {
+          return new jsonWorker();
+        }
+        if (label === "css" || label === "scss" || label === "less") {
+          return new cssWorker();
+        }
+        if (label === "html" || label === "handlebars" || label === "razor") {
+          return new htmlWorker();
+        }
+        if (label === "typescript" || label === "javascript") {
+          return new tsWorker();
+        }
+        return new editorWorker();
+      },
+    };
+
+    monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
+
+    editor = monaco.editor.create(editorElement, {
+      automaticLayout: true,
+      theme: "vs-dark",
+      minimap: { enabled: false },
+    });
+
+    editor.onDidChangeModelContent((e) => {
+      console.log(editor.getValue());
+    });
+
+    loadCode("", "css");
+  });
+
+  onDestroy(() => {
+    monaco?.editor.getModels().forEach((model) => model.dispose());
+    editor?.dispose();
   });
 
   const handleClick = () => {
     CSSEditorOpenStore.update(() => toggleOpenState(get(CSSEditorOpenStore)));
 
     if (get(CSSEditorOpenStore) === OpenState.Closed) {
-      collapseCSSEditor(content, htmlEditor, cssEditor);
+      collapseCSSEditor(content, htmlEditor, jsEditor);
     }
   };
 </script>
@@ -31,9 +83,10 @@
     <div class="editor-powers-left">
       <h2 class="editor-title">
         <svg viewBox="0 0 15 15" class="file-type-icon" id="icon-file-css">
-          <rect fill="#0EBEFF" width="15" height="15" rx="4"></rect><path
-            d="M8 8.366l1.845 1.065a.507.507 0 0 0 .686-.181.507.507 0 0 0-.186-.685L8.5 7.5l1.845-1.065a.507.507 0 0 0 .186-.685.507.507 0 0 0-.686-.181L8 6.634v-2.13A.507.507 0 0 0 7.5 4c-.268 0-.5.225-.5.503v2.131L5.155 5.569a.507.507 0 0 0-.686.181.507.507 0 0 0 .186.685L6.5 7.5 4.655 8.565a.507.507 0 0 0-.186.685c.134.232.445.32.686.181L7 8.366v2.13c0 .271.224.504.5.504.268 0 .5-.225.5-.503V8.366z"
-            fill="#282828"
+          <rect fill="#FF3C41" width="15" height="15" rx="4"></rect>
+          <path
+            d="M10.97 2.29a.563.563 0 0 0-.495-.29.572.572 0 0 0-.488.277l-5.905 9.86a.565.565 0 0 0-.007.574c.102.18.287.289.495.289a.572.572 0 0 0 .488-.277l5.905-9.86a.565.565 0 0 0 .007-.574"
+            fill="#28282B"
           ></path>
         </svg>
         <span>CSS</span>
@@ -47,7 +100,7 @@
       >
     </div>
   </div>
-  <Editor changeHandler={(value) => console.log(`CSSEditor changed`, value)} />
+  <div class="editor-code" bind:this={editorElement} />
 </div>
 
 <style>

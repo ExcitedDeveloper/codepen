@@ -11,17 +11,14 @@
   import cssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
   import htmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
   import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
-  import { code as jsCode } from "../../lib/js_code";
 
   let editorElement: HTMLDivElement;
   let editor: monaco.editor.IStandaloneCodeEditor;
   let model: monaco.editor.ITextModel;
 
   let content: NullableHTMLElement;
-  let htmlEditor: NullableHTMLElement;
   let cssEditor: NullableHTMLElement;
   let jsEditor: NullableHTMLElement;
-  let htmlCodeState: any;
 
   function loadCode(code: string, language: string) {
     model = monaco.editor.createModel(code, language);
@@ -64,7 +61,7 @@
       console.log(editor.getValue());
     });
 
-    loadCode(jsCode, "javascript");
+    loadCode("", "html");
   });
 
   onDestroy(() => {
