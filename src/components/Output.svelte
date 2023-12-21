@@ -17,6 +17,11 @@
     width: 100%;
     background: white;
     grid-area: output;
+    overflow-y: auto;
+  }
+
+  .output iframe {
+    height: auto;
   }
 
   @media (max-width: 766px) {

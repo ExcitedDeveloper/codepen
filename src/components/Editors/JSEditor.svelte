@@ -199,6 +199,7 @@
   .editor-actions {
     background: var(--app-background);
     margin-left: auto;
+    padding-right: 5px;
   }
 
   .editor-actions button {
