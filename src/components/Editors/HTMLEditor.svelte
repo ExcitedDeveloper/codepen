@@ -4,7 +4,7 @@
   import { OpenState, toggleOpenState } from "../../utils/openState";
   import { collapseHTMLEditor } from "../../utils/expandCollapse";
   import type { NullableHTMLElement } from "../../utils/types";
-  import { HTMLEditorOpenStore } from "../../stores";
+  import { HTMLEditorOpenStore, HTMLContentStore } from "../../stores";
   import * as monaco from "monaco-editor";
   import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
   import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
@@ -58,7 +58,7 @@
     });
 
     editor.onDidChangeModelContent((e) => {
-      console.log(editor.getValue());
+      HTMLContentStore.set(editor.getValue());
     });
 
     loadCode("", "html");

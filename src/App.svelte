@@ -7,6 +7,7 @@
     HTMLEditorOpenStore,
     CSSEditorOpenStore,
     JSEditorOpenStore,
+    SourceDocStore,
   } from "./stores";
   import { get } from "svelte/store";
   import HTMLEditorResizer from "./components/Editors/HTMLEditorResizer.svelte";

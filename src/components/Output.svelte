@@ -1,8 +1,21 @@
-<script>
+<script lang="ts">
+  import { get } from "svelte/store";
+  import { SourceDocStore } from "../stores";
+  import { onMount } from "svelte";
+
+  let srcdoc: string;
+
+  onMount(() => {
+    SourceDocStore.subscribe((d) => {
+      console.log(`srcdoc`, d);
+      srcdoc = d;
+    });
+  });
 </script>
 
 <div class="output">
   <iframe
+    {srcdoc}
     title="output"
     sandbox="allow-scripts"
     frameborder="0"
