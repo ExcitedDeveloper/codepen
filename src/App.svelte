@@ -1,5 +1,4 @@
 <script lang="ts">
-  // import Toolbar from "./components/Toolbar.svelte";
   import { onMount } from "svelte";
   import Output from "./components/Output.svelte";
   import {
@@ -7,7 +6,6 @@
     HTMLEditorOpenStore,
     CSSEditorOpenStore,
     JSEditorOpenStore,
-    SourceDocStore,
   } from "./stores";
   import { get } from "svelte/store";
   import HTMLEditorResizer from "./components/Editors/HTMLEditorResizer.svelte";
@@ -17,7 +15,6 @@
   import JSEditorResizer from "./components/Editors/JSEditorResizer.svelte";
   import JSEditor from "./components/Editors/JSEditor.svelte";
   import { setCursor } from "./utils/setCursor";
-  import { Editors } from "./utils/editors";
   import type { NullableHTMLElement } from "./utils/types";
   import { dragbarWidth } from "./utils/constants";
   import { OpenState } from "./utils/openState";
@@ -133,7 +130,6 @@
 </script>
 
 <main on:resize={resetColumnSizes}>
-  <!-- <Toolbar /> -->
   <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
   <div
     id="content"
@@ -163,17 +159,5 @@
     grid-template-areas: "htmldragbar htmleditor cssdragbar csseditor jsdragbar jseditor" "output output output output output output";
     grid-template-rows: minmax(250px, 1fr) minmax(250px, 1fr);
     grid-template-columns: 18px 1fr 18px 1fr 18px 1fr;
-  }
-
-  @media (max-width: 766px) {
-    .content {
-      flex-direction: row;
-    }
-  }
-
-  @media (max-width: 486px) {
-    .content {
-      flex-direction: column;
-    }
   }
 </style>

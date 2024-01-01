@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { get } from "svelte/store";
   import { SourceDocStore } from "../stores";
   import { onMount } from "svelte";
 
@@ -34,17 +33,5 @@
 
   .output iframe {
     height: auto;
-  }
-
-  @media (max-width: 766px) {
-    .output {
-      flex: 3;
-    }
-  }
-
-  @media (max-width: 486px) {
-    .output {
-      flex: 2;
-    }
   }
 </style>
