@@ -6,8 +6,7 @@
   let srcdoc: string;
 
   onMount(() => {
-    SourceDocStore.subscribe((d) => {
-      console.log(`srcdoc`, d);
+    SourceDocStore.subscribe((d: string) => {
       srcdoc = d;
     });
   });

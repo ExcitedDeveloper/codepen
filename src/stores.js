@@ -14,7 +14,10 @@ export const JSEditorOpenStore = writable(OpenState.Open);
 export const JSContentStore = writable("");
 export const SourceDocStore = writable("");
 
-let timeout: number;
+/**
+ * @type {number | undefined}
+ */
+let timeout;
 
 HTMLContentStore.subscribe((c) => {
   clearTimeout(timeout);

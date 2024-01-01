@@ -6,11 +6,7 @@
   import type { NullableHTMLElement } from "../../utils/types";
   import { HTMLEditorOpenStore, HTMLContentStore } from "../../stores";
   import * as monaco from "monaco-editor";
-  import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
-  import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
-  import cssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
-  import htmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
-  import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
+  import { getWorker } from "./common";
 
   let editorElement: HTMLDivElement;
   let editor: monaco.editor.IStandaloneCodeEditor;
@@ -32,21 +28,7 @@
     jsEditor = document.getElementById("js-editor");
 
     self.MonacoEnvironment = {
-      getWorker: function (_: any, label: string) {
-        if (label === "json") {
-          return new jsonWorker();
-        }
-        if (label === "css" || label === "scss" || label === "less") {
-          return new cssWorker();
-        }
-        if (label === "html" || label === "handlebars" || label === "razor") {
-          return new htmlWorker();
-        }
-        if (label === "typescript" || label === "javascript") {
-          return new tsWorker();
-        }
-        return new editorWorker();
-      },
+      getWorker,
     };
 
     monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
@@ -104,18 +86,7 @@
 </div>
 
 <style>
-  .editor-collapse-button {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-  }
-
-  .editor {
-    --editor-action-height: 36px;
-    --editor-background: rgb(29, 30, 34);
-    background: var(--editor-background);
-  }
+  @import "./Editor.scss";
 
   .html-editor {
     grid-area: htmleditor;
@@ -125,45 +96,6 @@
     container: htmltitle / inline-size;
     height: var(--editor-action-height);
     display: flex;
-  }
-
-  .editor-powers-left {
-    flex: 1 1 auto;
-    background: var(--app-background);
-    min-width: 96px;
-  }
-
-  .editor-title {
-    background: var(--editor-background);
-    width: 96px;
-
-    font-family: var(--cp-font-family);
-    border-top: 3px solid transparent;
-    white-space: nowrap;
-    font-weight: 700;
-    color: var(--cp-color-8);
-    margin: 0;
-    font-size: 1.1rem;
-    line-height: 1;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    padding: 9px 12px;
-
-    margin-left: 1px;
-    -webkit-transition: -webkit-transform 0.2s;
-    transition: -webkit-transform 0.2s;
-    transition: transform 0.2s;
-    transition:
-      transform 0.2s,
-      -webkit-transform 0.2s;
-    -webkit-transform-origin: left center;
-    transform-origin: left center;
   }
 
   @container htmltitle (max-width: 165px) {

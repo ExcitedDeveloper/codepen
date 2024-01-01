@@ -1,0 +1,51 @@
+.editor-collapse-button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.editor {
+  --editor-action-height: 36px;
+  --editor-background: rgb(29, 30, 34);
+  background: var(--editor-background);
+}
+
+.editor-powers-left {
+  flex: 1 1 auto;
+  background: var(--app-background);
+  min-width: 96px;
+}
+
+.editor-title {
+  background: var(--editor-background);
+  width: 96px;
+
+  font-family: var(--cp-font-family);
+  border-top: 3px solid transparent;
+  white-space: nowrap;
+  font-weight: 700;
+  color: var(--cp-color-8);
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 9px 12px;
+
+  margin-left: 1px;
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: -webkit-transform 0.2s;
+  transition: transform 0.2s;
+  transition:
+    transform 0.2s,
+    -webkit-transform 0.2s;
+  -webkit-transform-origin: left center;
+  transform-origin: left center;
+}
