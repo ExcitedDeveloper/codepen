@@ -6,18 +6,19 @@
     HTMLEditorOpenStore,
     CSSEditorOpenStore,
     JSEditorOpenStore,
+    HTMLContentStore,
+    CSSContentStore,
+    JSContentStore,
   } from "./stores";
   import { get } from "svelte/store";
   import HTMLEditorResizer from "./components/Editors/HTMLEditorResizer.svelte";
-  import HTMLEditor from "./components/Editors/HTMLEditor.svelte";
-  import CSSEditorResizer from "./components/Editors/CSSEditorResizer.svelte";
-  import CSSEditor from "./components/Editors/CSSEditor.svelte";
-  import JSEditorResizer from "./components/Editors/JSEditorResizer.svelte";
-  import JSEditor from "./components/Editors/JSEditor.svelte";
+  import CodeEditor from "./components/Editors/CodeEditor.svelte";
+  import EditorResizer from "./components/Editors/EditorResizer.svelte";
   import { setCursor } from "./utils/setCursor";
   import type { NullableHTMLElement } from "./utils/types";
   import { dragbarWidth } from "./utils/constants";
   import { OpenState } from "./utils/openState";
+  import { collapseEditor } from "./utils/expandCollapse";
   import "@fortawesome/fontawesome-free/css/all.min.css";
 
   let content: NullableHTMLElement;
@@ -139,11 +140,32 @@
     on:mousemove={onDrag}
   >
     <HTMLEditorResizer />
-    <HTMLEditor />
-    <CSSEditorResizer />
-    <CSSEditor />
-    <JSEditorResizer />
-    <JSEditor />
+    <CodeEditor
+      editorType="html"
+      language="html"
+      store={HTMLContentStore}
+      openStore={HTMLEditorOpenStore}
+      collapseFunction={(content, ...editors) => collapseEditor("html", content, ...editors)}
+      otherEditors={["css-editor", "js-editor"]}
+    />
+    <EditorResizer resizerType="css" />
+    <CodeEditor
+      editorType="css"
+      language="css"
+      store={CSSContentStore}
+      openStore={CSSEditorOpenStore}
+      collapseFunction={(content, ...editors) => collapseEditor("css", content, ...editors)}
+      otherEditors={["html-editor", "js-editor"]}
+    />
+    <EditorResizer resizerType="js" />
+    <CodeEditor
+      editorType="js"
+      language="javascript"
+      store={JSContentStore}
+      openStore={JSEditorOpenStore}
+      collapseFunction={(content, ...editors) => collapseEditor("js", content, ...editors)}
+      otherEditors={["html-editor", "css-editor"]}
+    />
     <Output />
   </div>
 </main>

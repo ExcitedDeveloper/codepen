@@ -3,20 +3,27 @@
   import { DraggingStore } from "../../stores";
   import { setCursor } from "../../utils/setCursor";
 
-  const startCssEditorResizerDrag = () => {
-    DraggingStore.update(() => ({
-      isCSSEditorResizerDragging: true,
-      isJSEditorResizerDragging: false,
-    }));
+  export let resizerType: "css" | "js";
+
+  const startDrag = () => {
+    const dragState = {
+      isCSSEditorResizerDragging: resizerType === "css",
+      isJSEditorResizerDragging: resizerType === "js",
+    };
+    
+    DraggingStore.update(() => dragState);
     setCursor("ew-resize");
   };
+
+  const gridArea = resizerType === "css" ? "cssdragbar" : "jsdragbar";
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <div
-  id="css-editor-resizer"
-  on:mousedown={startCssEditorResizerDrag}
+  id="{resizerType}-editor-resizer"
+  on:mousedown={startDrag}
   class="editor-resizer"
+  style="grid-area: {gridArea};"
   role="separator"
 ></div>
 
@@ -25,6 +32,5 @@
     width: 18px;
     padding: 0;
     cursor: col-resize;
-    grid-area: cssdragbar;
   }
 </style>

@@ -28,10 +28,10 @@
     width: 100%;
     background: white;
     grid-area: output;
-    overflow-y: auto;
+    overflow: hidden;
   }
 
   .output iframe {
-    height: auto;
+    height: 100%;
   }
 </style>
