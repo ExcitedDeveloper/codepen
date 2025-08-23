@@ -8,7 +8,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "test": "node --test **/*.test.js"
+    "test": "node --test **/*.test.js",
+    "test:ts": "npx tsx --test **/*.test.ts",
+    "coverage": "npx c8 --reporter=text --reporter=html npx tsx --test **/*.test.ts"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.5.3",

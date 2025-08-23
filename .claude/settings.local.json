@@ -3,7 +3,14 @@
     "allow": [
       "Bash(npm test)",
       "Bash(npx vitest:*)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(npm run test:*)",
+      "Bash(npm run build:*)",
+      "Bash(find:*)",
+      "Bash(npx c8 npm test:*)",
+      "Bash(npx tsx:*)",
+      "Bash(npm run coverage:*)",
+      "Bash(npx c8:*)"
     ],
     "deny": [],
     "ask": []
