@@ -10,7 +10,10 @@
       "Bash(npx c8 npm test:*)",
       "Bash(npx tsx:*)",
       "Bash(npm run coverage:*)",
-      "Bash(npx c8:*)"
+      "Bash(npx c8:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:api.github.com)"
     ],
     "deny": [],
     "ask": []
